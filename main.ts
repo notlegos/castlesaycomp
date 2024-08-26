@@ -513,6 +513,20 @@ function wonSequence (fieldScores: any[]) {
     basic.pause(2000)
     radioSay("Won", "10", true)
 }
+function playSFX (track: number) {
+    thisTrack = 0
+    thisString = ""
+    for (let value4 of sbDoom) {
+        thisTrack = parseFloat(value4.split("_")[1])
+        if (thisTrack == track) {
+            thisString = value4
+            break;
+        }
+    }
+    relativeVolumeA = parseFloat(thisString.split("_")[2]) / 100
+    Connected.showUserText(1, thisString)
+    basic.pause(notLegos.playsFor(thisString, potRead(), notLegos.DigitalRJPin.J3))
+}
 function shuffleList (listIn: string[]) {
     listCopy = []
     for (let value of listIn) {
@@ -714,6 +728,20 @@ function lostSequence (fieldScores: any[]) {
     basic.pause(2000)
     radioSay("Lost", "10", true)
 }
+function playVoice (track: number) {
+    thisTrack = 0
+    thisString = ""
+    for (let value5 of sbVoices) {
+        thisTrack = parseFloat(value5.split("_")[1])
+        if (thisTrack == track) {
+            thisString = value5
+            break;
+        }
+    }
+    relativeVolumeA = parseFloat(thisString.split("_")[2]) / 100
+    Connected.showUserText(1, thisString)
+    basic.pause(notLegos.playsFor(thisString, potRead(), notLegos.DigitalRJPin.J3))
+}
 function setMusic (player: string) {
     musicString = notLegos.playerMusicString("Mario")
     mbTutorial = []
@@ -796,17 +824,16 @@ function checkNoPlayer () {
 let thisRead = 0
 let scoreColors: number[] = []
 let sbSFX: string[] = []
-let sbDoom: string[] = []
 let sbIncorrect: string[] = []
 let sbCorrect: string[] = []
 let mbLost: string[] = []
 let mbWon: string[] = []
 let mbLevel: string[] = []
 let mbAwaiting: string[] = []
-let sbVoices: string[] = []
 let mbIntro: string[] = []
 let mbTutorial: string[] = []
 let musicString = ""
+let sbVoices: string[] = []
 let laserC = 0
 let laserR = 0
 let laserL = 0
@@ -831,6 +858,10 @@ let instruction = ""
 let thisItem = ""
 let listOut: string[] = []
 let listCopy: string[] = []
+let relativeVolumeA = 0
+let sbDoom: string[] = []
+let thisString = ""
+let thisTrack = 0
 let masterAvoidList: string[] = []
 let sendValue = 0
 let sendString = ""
@@ -872,30 +903,28 @@ let limitC = 0
 let limitR = 0
 let limitL = 0
 let debug = false
-let playlistName: number[] = []
-let playlistReady: number[] = []
-let playlistYay: number[] = []
-let playlistNay: number[] = []
-let playlistOuch: number[] = []
-let playlistSuccess: number[] = []
-let playlistFailure: number[] = []
-let playlistWon: number[] = []
-let playlistLost: number[] = []
-let playlistHurry: number[] = []
-let playlistCorrect: number[] = []
-let playlistIncorrect: number[] = []
-let playlistTutorial: number[] = []
-let playlistIntro: number[] = []
-let playlistAwaiting: number[] = []
-let playlistWonMusic: number[] = []
-let thisTrack = 0
-let thisString = ""
-let theSeries = ""
-let fieldIndex2 = 0
-let introRunning = false
-let buttonBlock = false
-let isReady = false
 let playlistLevel: number[] = []
+let isReady = false
+let buttonBlock = false
+let introRunning = false
+let fieldIndex2 = 0
+let theSeries = ""
+let playlistWonMusic: number[] = []
+let playlistAwaiting: number[] = []
+let playlistIntro: number[] = []
+let playlistTutorial: number[] = []
+let playlistIncorrect: number[] = []
+let playlistCorrect: number[] = []
+let playlistHurry: number[] = []
+let playlistLost: number[] = []
+let playlistWon: number[] = []
+let playlistFailure: number[] = []
+let playlistSuccess: number[] = []
+let playlistOuch: number[] = []
+let playlistNay: number[] = []
+let playlistYay: number[] = []
+let playlistReady: number[] = []
+let playlistName: number[] = []
 pins.digitalWritePin(DigitalPin.P15, 1)
 debug = true
 limitL = 80
@@ -945,7 +974,6 @@ loops.everyInterval(100, function () {
     thisRead = potRead()
     if (!(isNearly(thisRead, lastRead, 0.01))) {
         let relativeVolumeB = 0
-        let relativeVolumeA = 0
         lastRead = thisRead
         notLegos.volumeQuickPort(convertToText(30 * (thisRead * relativeVolumeA)), notLegos.DigitalRJPin.J3)
         notLegos.volumeQuickPort(convertToText(30 * (thisRead * relativeVolumeB)), notLegos.DigitalRJPin.J4)
