@@ -714,6 +714,48 @@ function lostSequence (fieldScores: any[]) {
     basic.pause(2000)
     radioSay("Lost", "10", true)
 }
+function setMusic (player: string) {
+    musicString = notLegos.playerMusicString("Mario")
+    mbTutorial = []
+    mbIntro = []
+    sbVoices = []
+    mbAwaiting = []
+    mbLevel = []
+    mbWon = []
+    mbLost = []
+    sbCorrect = []
+    sbIncorrect = []
+    sbDoom = []
+    sbSFX = []
+    stringParts = musicString.split("|")
+    for (let value3 of stringParts) {
+        thisLetter = value3.charAt(0)
+        theSound = value3.substr(2, value3.length - 2)
+        if (thisLetter == "T") {
+            mbTutorial.push(theSound)
+        } else if (thisLetter == "N") {
+            mbIntro.push(theSound)
+        } else if (thisLetter == "V") {
+            sbVoices.push(theSound)
+        } else if (thisLetter == "A") {
+            mbAwaiting.push(theSound)
+        } else if (thisLetter == "E") {
+            mbLevel.push(theSound)
+        } else if (thisLetter == "O") {
+            mbWon.push(theSound)
+        } else if (thisLetter == "L") {
+            mbLost.push(theSound)
+        } else if (thisLetter == "C") {
+            sbCorrect.push(theSound)
+        } else if (thisLetter == "I") {
+            sbIncorrect.push(theSound)
+        } else if (thisLetter == "D") {
+            sbDoom.push(theSound)
+        } else if (thisLetter == "S") {
+            sbSFX.push(theSound)
+        }
+    }
+}
 Connected.onGesture(Connected.GestureType.Right, function () {
     Connected.showUserText(2, "gesture right")
     gestureGo()
@@ -753,6 +795,18 @@ function checkNoPlayer () {
 }
 let thisRead = 0
 let scoreColors: number[] = []
+let sbSFX: string[] = []
+let sbDoom: string[] = []
+let sbIncorrect: string[] = []
+let sbCorrect: string[] = []
+let mbLost: string[] = []
+let mbWon: string[] = []
+let mbLevel: string[] = []
+let mbAwaiting: string[] = []
+let sbVoices: string[] = []
+let mbIntro: string[] = []
+let mbTutorial: string[] = []
+let musicString = ""
 let laserC = 0
 let laserR = 0
 let laserL = 0
@@ -829,25 +883,13 @@ let playlistWon: number[] = []
 let playlistLost: number[] = []
 let playlistHurry: number[] = []
 let playlistCorrect: number[] = []
-let sbCorrect: number[] = []
 let playlistIncorrect: number[] = []
-let sbIncorrect: number[] = []
 let playlistTutorial: number[] = []
-let mbTutorial: number[] = []
 let playlistIntro: number[] = []
-let mbIntro: number[] = []
 let playlistAwaiting: number[] = []
-let mbAwaiting: number[] = []
-let mbLevel: number[] = []
 let playlistWonMusic: number[] = []
-let mbWon: number[] = []
-let mbLost: number[] = []
 let thisTrack = 0
 let thisString = ""
-let sbDoom: number[] = []
-let sbVoices: number[] = []
-let musicString = ""
-let sbSFX: number[] = []
 let theSeries = ""
 let fieldIndex2 = 0
 let introRunning = false
@@ -895,6 +937,8 @@ let songNumber = -1
 let volumeA = -1
 let volumeB = -1
 let lastRead = potRead()
+setSounds("Mario")
+setMusic("Mario")
 runIntro()
 awaitPlayer()
 loops.everyInterval(100, function () {
